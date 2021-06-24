@@ -9,15 +9,30 @@ struct ContentView: View {
     let tipAmount = [10, 15, 20, 25, 0]
     
     var body: some View {
-      
-        Form {
-            Section {
-                TextField ("Enter the cost of food", text: $checkAmount)
-                    .keyboardType(.decimalPad)
+        NavigationView {
+            Form {
+                Section {
+                    TextField ("Bill Amount", text: $checkAmount)
+                        .keyboardType(.decimalPad)
+                    Picker ("Number of People", selection: $peopleAmount) {
+                        ForEach (2..<101) { people in
+                            Text("\(people) people")
+                        }
+                    }
+                }
+                Section(header: Text("Tip Amount")) {
+                    Picker("Tip percentage", selection: $tipIndex) {
+                        ForEach (0..<tipAmount.count) {value in
+                            Text("\(tipAmount[value])%")
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                Section {
+                    Text("Check Amount: $\(checkAmount)")
+                }
             }
-            Section {
-                Text("Check Amount: $\(checkAmount)")
-            }
+            .navigationBarTitle("We Split")
         }
     }
 }
